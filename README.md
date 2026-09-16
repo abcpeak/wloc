@@ -1,8 +1,12 @@
 <p align="center">
-  <img src="wloc.jpg" width="144" />
+  <img src="wloc-lm.png" width="144" />
 </p>
 
-# Apple WLOC Location Modification
+# WLOC-LM
+
+Apple WLOC Location Modification
+
+(原Yu9191/wolc已删库，本项目fork后,改名为WLOC-LM并更新)
 
 Modify the coordinates returned by Apple's network location services (WiFi/cell tower) to implement network-based virtual location on iOS. Open the online point selection page to pick a location for immediate effect, with no need to manually enter latitude and longitude.
 
