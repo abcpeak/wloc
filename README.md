@@ -39,7 +39,7 @@ Modify the coordinates returned by Apple's network location services (WiFi/cell 
 
 ## 安装与操作流程
 
-安装流程
+安装流程：
 
 1. 订阅模块并启用 MITM
 2. 打开在线选点页面（公共 Worker）
@@ -53,7 +53,7 @@ Modify the coordinates returned by Apple's network location services (WiFi/cell 
 >
 > **解决方法：重启设备。** 重启会清空 `locationd` 的内存缓存，系统重新发起 WLOC 请求时会拿到修改后的坐标。飞行模式开关、关闭定位服务等方式在 iOS 26+ 上**无法**清除此缓存，必须重启。iOS 15~18 通常不需要重启即可生效。
 
-操作流程
+操作流程：
 
 1. 关闭定位服务
 2. 选好位置(在选点页面) → 储存到设备
@@ -62,14 +62,14 @@ Modify the coordinates returned by Apple's network location services (WiFi/cell 
 
 其他方法(需要重启设备)：打开飞行模式 → 关闭定位服务 → 重启设备 → 关闭飞行模式（WiFi 也要关）→ 连接代理工具→ 打开定位服务
 
-选点页面
+选点页面：
 
 >公共页面有请求上限，建议部署自己的实例：
 
 - **Workers**: `https://wloc-spoofer.wloc.workers.dev/`
 - **Pages**: `https://wloc-pages.pages.dev/`
 
-快捷指令
+快捷指令：
 
 - WLOC 设置地理位置：https://www.icloud.com/shortcuts/a82717d8fdad4e6280866fcf911173f7
 - WLOC 清除位置数据：https://www.icloud.com/shortcuts/f42632d406504f24a2cd163af4fe012f
@@ -81,7 +81,14 @@ Modify the coordinates returned by Apple's network location services (WiFi/cell 
 
 支持苹果地图、高德（含短链，自动跟跳转 + GCJ-02→WGS84 坐标换算）。
 
-> 前提：代理已开 + 模块已启用 + 信任 `gs-loc.apple.com`。选点页面（Worker / Pages）方案仍保留，见下方。
+注意事项：
+
+- 需要代理已开 + 模块已启用
+- 需要 MITM 证书信任 `gs-loc.apple.com` 和 `gs-loc-cn.apple.com`
+- 仅修改网络定位(WiFi/基站)，不影响 GPS 硬件定位
+- iOS 在 GPS 信号强时可能忽略网络定位结果
+- 适用于 WiFi 定位为主的室内场景效果最佳
+- 选点页面需在代理模式下使用（Safari 走代理才能拦截储存请求）
 
 ---
 <details>
@@ -196,6 +203,7 @@ cd worker && npm install && npm test
 - **当前生效坐标**：页面显示设备端持久化数据（wloc_settings），支持刷新查询和清除
 
 **数据存储说明：**
+
 - **收藏列表** → 保存在浏览器 `localStorage`（仅用于选点页面的 UI 便捷操作）
 - **生效坐标** → 保存在代理工具持久化存储 `$persistentStore`（脚本运行时实际读取的数据）
 
@@ -206,13 +214,14 @@ cd worker && npm install && npm test
 <details>
 <summary><b>自部署 Worker（推荐）</b></summary>
 
-
-
 **一键部署（Workers）：**
 
 [![Deploy to Cloudflare Workers](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/abcpeak/wloc/tree/main/worker)
 
-> 一键部署仅支持 Workers 模式，点击按钮后按提示授权即可完成部署。
+> 一键部署仅支持 Workers 模式，点击按钮后按提示授权即可，部署完成后得到选点网页。
+> 部署成功后会得到你自己的 Worker 地址（如 `https://wloc-spoofer.<你的子域名>.workers.dev`）
+> 免费账户每天 10 万次请求，个人使用完全够用。
+
 
 **手动部署（Workers）：**
 
@@ -231,9 +240,7 @@ npx wrangler login
 npm run deploy
 ```
 
-部署成功后会得到你自己的 Worker 地址（如 `https://wloc-spoofer.<你的子域名>.workers.dev`），用这个地址选点即可。
-
-> 免费账户每天 10 万次请求，个人使用完全够用。
+</details>
 
 <details>
 <summary>高级：Pages 部署</summary>
@@ -256,31 +263,17 @@ Pages 和 Workers 功能完全一致，按需选择即可。
 
 </details>
 
-</details>
-
-<details>
-<summary><b>注意事项</b></summary>
-
-- 需要 MITM 证书信任 `gs-loc.apple.com` 和 `gs-loc-cn.apple.com`
-- 仅修改网络定位(WiFi/基站)，不影响 GPS 硬件定位
-- iOS 在 GPS 信号强时可能忽略网络定位结果
-- 适用于 WiFi 定位为主的室内场景效果最佳
-- 选点页面需在代理模式下使用（Safari 走代理才能拦截储存请求）
-
-</details>
-
 ---
 
-## 致谢
+## 感谢
 
-- [proxypin-wloc-spoofer](https://github.com/FFF686868/proxypin-wloc-spoofer) - 原始 WLOC Location Modification思路 by FFF686868
-- [NSNanoCat/Util](https://github.com/NSNanoCat/util) - 跨平台脚本工具框架
-
-### 贡献者
-
+- [proxypin-wloc-spoofer](https://github.com/FFF686868/proxypin-wloc-spoofer) - 原始 WLOC 定位修改思路 by FFF686868
+- [NSNanoCat/Util](https://github.com/NSNanoCat/util) - 跨平台脚本工具
 - [@YmlyZA](https://github.com/YmlyZA) - 百度地图支持、港澳台边界处理、GCJ 换算优化、回归测试覆盖
 - [@YeTianXingShi](https://github.com/YeTianXingShi) - randomRadius 随机坐标扰动功能原始实现
-- [@SajoLuo](https://github.com/SajoLuo) - Stash 响应格式修复
+- [@SajoLuo](https://github.com/SajoLuo) - Stash 响应格式修复 ([#66](https://github.com/Yu9191/wloc/pull/66))
+- [@SkywardLab](https://github.com/SkywardLab) - 扩展 WLOC 备用域名拦截 ([#90](https://github.com/Yu9191/wloc/pull/90))
+- [@beiming0000](https://github.com/beiming0000) - 逗号小数格式坐标丢失问题报告
 
 ---
 
