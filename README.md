@@ -4,9 +4,7 @@
 
 # WLOC-LM
 
-Apple WLOC Location Modification
-
-(原Yu9191/wolc已删库，本项目fork后,改名为WLOC-LM并更新)
+> WLOC Location Modification (WLOC-LM) 本项目根据Yu9191/wolc修改
 
 Modify the coordinates returned by Apple's network location services (WiFi/cell tower) to implement network-based virtual location on iOS. Open the online point selection page to pick a location for immediate effect, with no need to manually enter latitude and longitude.
 
@@ -16,20 +14,15 @@ Modify the coordinates returned by Apple's network location services (WiFi/cell 
 
 ## 订阅地址
 
-**Surge:**
-https://raw.githubusercontent.com/abcpeak/wloc/refs/heads/main/modules/wloc.sgmodule
+- **Surge:** https://raw.githubusercontent.com/abcpeak/wloc/refs/heads/main/modules/wloc.sgmodule
 
-**Quantumult X:**
-https://raw.githubusercontent.com/abcpeak/wloc/refs/heads/main/modules/wloc.conf
+- **Quantumult X:** https://raw.githubusercontent.com/abcpeak/wloc/refs/heads/main/modules/wloc.conf
 
-**Loon:**
-https://raw.githubusercontent.com/abcpeak/wloc/refs/heads/main/modules/wloc.lpx
+- **Loon:**https://raw.githubusercontent.com/abcpeak/wloc/refs/heads/main/modules/wloc.lpx
 
-**Stash:**
-https://raw.githubusercontent.com/abcpeak/wloc/refs/heads/main/modules/wloc.stoverride
+- **Stash:**https://raw.githubusercontent.com/abcpeak/wloc/refs/heads/main/modules/wloc.stoverride
 
-**Shadowrocket(小火箭):**
-https://raw.githubusercontent.com/abcpeak/wloc/refs/heads/main/modules/wloc.module
+- **Shadowrocket(小火箭):** https://raw.githubusercontent.com/abcpeak/wloc/refs/heads/main/modules/wloc.module
 
 > Egern 可直接使用 Surge 模块
 > Stash 请直接订阅上面的 `.stoverride`，无需用 Script Hub 转换
