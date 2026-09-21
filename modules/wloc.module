@@ -1,5 +1,5 @@
 #!name=WLOC Location Modification
-#!desc=修改 Apple 网络定位返回坐标 (Shadowrocket 小火箭) | 快捷指令(推荐): 设置地理位置 https://www.icloud.com/shortcuts/a82717d8fdad4e6280866fcf911173f7 清理恢复位置 https://www.icloud.com/shortcuts/f42632d406504f24a2cd163af4fe012f | 选点页面: https://wloc-pages.pages.dev/
+#!desc=Modify the coordinates returned by Apple's network‑location services (Wi‑Fi, cellular base stations) to achieve network‑level virtual location on iOS.
 #!author=abcpeak Rewrite
 #!homepage=https://github.com/abcpeak/wloc
 #!icon=https://raw.githubusercontent.com/abcpeak/wloc/refs/heads/main/wloc-lm.png
