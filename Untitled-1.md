@@ -1,28 +1,33 @@
 <p align="center">
-  <img src="wloc-lm.png" width="144" />
+  <img src="wloc.jpg" width="144" />
 </p>
 
-# WLOC-LM
-
-> WLOC Location Modification (WLOC-LM) 本项目根据Yu9191/wolc修改
-
-Modify the coordinates returned by Apple's network location services (WiFi/cell tower) to implement network-based virtual location on iOS. Open the online point selection page to pick a location for immediate effect, with no need to manually enter latitude and longitude.
+# Apple WLOC 定位修改
 
 修改 Apple 网络定位服务 (WiFi/基站) 返回的坐标，实现 iOS 网络定位虚拟定位。打开在线选点页面选位置即可生效，无需手动填经纬度。
+
+> ⚠️ **iOS 27 beta 6 起，系统已禁止对 `gs-loc.apple.com` 进行 MITM 拦截。** 目前该版本及之后的 beta 版本暂时无法使用本项目，等待后续适配方案。
 
 ---
 
 ## 订阅地址
 
-- **Surge:** https://raw.githubusercontent.com/abcpeak/wloc/refs/heads/main/modules/wloc.sgmodule
+**Surge:**
+https://raw.githubusercontent.com/Yu9191/wloc/refs/heads/main/modules/wloc.sgmodule
 
-- **Quantumult X:** https://raw.githubusercontent.com/abcpeak/wloc/refs/heads/main/modules/wloc.conf
+**Quantumult X:**
+https://raw.githubusercontent.com/Yu9191/wloc/refs/heads/main/modules/wloc.conf
 
-- **Loon:**https://raw.githubusercontent.com/abcpeak/wloc/refs/heads/main/modules/wloc.lpx
+**Loon:**
+https://raw.githubusercontent.com/AllsVoid/Yu9191-wloc/main/modules/wloc.lpx
 
-- **Stash:**https://raw.githubusercontent.com/abcpeak/wloc/refs/heads/main/modules/wloc.stoverride
+> Loon 插件及其图标、定位脚本和设置脚本均直接从当前 `Yu9191/wloc` 仓库加载，不再依赖原仓库。
 
-- **Shadowrocket(小火箭):** https://raw.githubusercontent.com/abcpeak/wloc/refs/heads/main/modules/wloc.module
+**Stash:**
+https://raw.githubusercontent.com/Yu9191/wloc/refs/heads/main/modules/wloc.stoverride
+
+**Shadowrocket(小火箭):**
+https://raw.githubusercontent.com/Yu9191/wloc/refs/heads/main/modules/wloc.module
 
 > Egern 可直接使用 Surge 模块
 > Stash 请直接订阅上面的 `.stoverride`，无需用 Script Hub 转换
@@ -35,58 +40,30 @@ Modify the coordinates returned by Apple's network location services (WiFi/cell 
 - `bluedot.is.autonavi.com`
 - `bluedot.is.autonavi.com.gds.alibabadns.com`
 
+
 ---
 
-## 安装与操作流程
+## 快捷指令（推荐，最方便）
 
-安装流程
+直接用快捷指令切换 / 清除定位，无需打开选点页面：
 
-1. 订阅模块并启用 MITM
-2. 打开在线选点页面（公共 Worker）
-3. 地图选位置 / 搜索地名 / 粘贴地图链接
-4. 点击「储存到设备」
-5. 下次 Apple 定位触发时自动生效
+- **wloc 设置地理位置**：https://www.icloud.com/shortcuts/a82717d8fdad4e6280866fcf911173f7
+- **wloc 清理恢复位置**：https://www.icloud.com/shortcuts/f42632d406504f24a2cd163af4fe012f
 
-支持 Apple Maps / Google Maps / 高德 / 百度 / 坐标文本 链接解析。
+**用法**
 
-> **iOS 26/27 及更高版本注意：** Apple 从 iOS 26 开始大幅强化了 `locationd` 的定位缓存机制，系统会将之前获取的真实定位结果缓存在内存中并长时间复用。这意味着安装模块或切换目标坐标后，即使脚本已成功修改了 WLOC 响应（日志显示"已修改"），系统仍可能继续使用缓存中的旧坐标，导致定位看起来没有变化。
->
-> **解决方法：重启设备。** 重启会清空 `locationd` 的内存缓存，系统重新发起 WLOC 请求时会拿到修改后的坐标。飞行模式开关、关闭定位服务等方式在 iOS 26+ 上**无法**清除此缓存，必须重启。iOS 15~18 通常不需要重启即可生效。
-
-操作流程
-
-1. 关闭定位服务
-2. 选好位置(在选点页面) → 储存到设备
-3. 打开定位服务 → 弹出「允许访问位置信息」时选择「下次询问或在我共享时」
-4. 打开地图验证
-
-其他方法(需要重启设备)：打开飞行模式 → 关闭定位服务 → 重启设备 → 关闭飞行模式（WiFi 也要关）→ 连接代理工具→ 打开定位服务
-
-选点页面
-
->公共页面有请求上限，建议部署自己的实例：
-
-- **Workers**: `https://wloc-spoofer.wloc.workers.dev/`
-- **Pages**: `https://wloc-pages.pages.dev/`
-
-快捷指令
-
-- WLOC 设置地理位置：https://www.icloud.com/shortcuts/a82717d8fdad4e6280866fcf911173f7
-- WLOC 清除位置数据：https://www.icloud.com/shortcuts/f42632d406504f24a2cd163af4fe012f
-
-设置位置快捷指令用法：在地图 App 选好位置 → 共享 → 选「wloc 设置地理位置」即可切换。
-
-- Apple Map (苹果地图)：选点 → 共享 → 「wloc 设置地理位置」
-- Amap (高德地图)：选点 → 分享 → 更多 → 「wloc 设置地理位置」
+- **设置位置：** 在地图 App 里选好位置（长按地图选点）→ 共享 → 选「wloc 设置地理位置」即可切换。
+  - 苹果地图：选点 → 共享 → 「wloc 设置地理位置」
+  - 高德地图：选点 → 分享 → **更多** → 「wloc 设置地理位置」
+- **清理位置：** 点「wloc 清理恢复位置」即可恢复真实定位。
 
 支持苹果地图、高德（含短链，自动跟跳转 + GCJ-02→WGS84 坐标换算）。
 
 > 前提：代理已开 + 模块已启用 + 信任 `gs-loc.apple.com`。选点页面（Worker / Pages）方案仍保留，见下方。
 
 ---
-<details>
-<summary><b>关于地图链接解析（worker）</b></summary>
 
+### 关于地图链接解析（worker）
 
 为了让苹果地图和高德走同一条流程，链接统一发给 `wloc-spoofer.wloc.workers.dev/api/parse` 解析：
 
@@ -124,8 +101,39 @@ cd worker && npm install && npm test
 `map.baidu.com/poi/名称/@数字,数字,19z` 之后复制整条地址再粘贴——但百度的针脚位置
 与苹果/高德常有几十到两百米的出入（大陆约 5 米，港澳台可达 240 米），精确定位时
 不建议用它。
-</details>
 
+---
+
+<details>
+<summary><b>使用方法</b></summary>
+
+1. 订阅模块并启用 MITM
+2. 打开在线选点页面（公共 Worker，建议添加到主屏幕）
+3. 地图选位置 / 搜索地名 / 粘贴地图链接
+4. 点击「储存到设备」
+5. 下次 Apple 定位触发时自动生效
+
+支持 Apple Maps / Google Maps / 高德 / 百度 / 坐标文本 链接解析。
+
+> **iOS 26/27 及更高版本注意：** Apple 从 iOS 26 开始大幅强化了 `locationd` 的定位缓存机制，系统会将之前获取的真实定位结果缓存在内存中并长时间复用。这意味着安装模块或切换目标坐标后，即使脚本已成功修改了 WLOC 响应（日志显示"已修改"），系统仍可能继续使用缓存中的旧坐标，导致定位看起来没有变化。
+>
+> **解决方法：重启设备。** 重启会清空 `locationd` 的内存缓存，系统重新发起 WLOC 请求时会拿到修改后的坐标。飞行模式开关、关闭定位服务等方式在 iOS 26+ 上**无法**清除此缓存，必须重启。iOS 15~18 通常不需要重启即可生效。
+
+**高版本系统推荐操作流程（成功率最高）：**
+
+方法一：
+1. 先在选点页面选好需要修改的定位并储存到设备
+2. 开飞行模式 → 关闭定位服务 → 重启设备
+3. 关闭飞行模式（WiFi 也要关）→ 连接代理工具（确认 VPN 图标出现）→ 打开定位服务
+4. 打开地图验证
+
+方法二：
+1. 关闭定位服务
+2. 在选点页面选好位置并储存到设备
+3. 打开定位服务 → 弹出「允许访问位置信息」时选择**「下次询问或在我共享时」**
+4. 打开地图验证
+
+</details>
 
 <details>
 <summary><b>工作原理</b></summary>
@@ -206,11 +214,14 @@ cd worker && npm install && npm test
 <details>
 <summary><b>自部署 Worker（推荐）</b></summary>
 
+公共选点页面有请求上限，建议部署自己的实例：
 
+- **Workers**: `https://wloc-spoofer.wloc.workers.dev/`
+- **Pages**: `https://wloc-pages.pages.dev/`
 
 **一键部署（Workers）：**
 
-[![Deploy to Cloudflare Workers](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/abcpeak/wloc/tree/main/worker)
+[![Deploy to Cloudflare Workers](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/Yu9191/wloc/tree/main/worker)
 
 > 一键部署仅支持 Workers 模式，点击按钮后按提示授权即可完成部署。
 
@@ -218,7 +229,7 @@ cd worker && npm install && npm test
 
 ```bash
 # 1. 克隆仓库
-git clone https://github.com/abcpeak/wloc.git
+git clone https://github.com/Yu9191/wloc.git
 cd wloc/worker
 
 # 2. 安装依赖
@@ -241,7 +252,7 @@ npm run deploy
 Pages 部署不支持一键按钮，需要手动执行：
 
 ```bash
-git clone https://github.com/abcpeak/wloc.git
+git clone https://github.com/Yu9191/wloc.git
 cd wloc/worker
 npm install
 npm run pages:deploy
@@ -273,14 +284,16 @@ Pages 和 Workers 功能完全一致，按需选择即可。
 
 ## 致谢
 
-- [proxypin-wloc-spoofer](https://github.com/FFF686868/proxypin-wloc-spoofer) - 原始 WLOC Location Modification思路 by FFF686868
+- [proxypin-wloc-spoofer](https://github.com/FFF686868/proxypin-wloc-spoofer) - 原始 WLOC 定位修改思路 by FFF686868
 - [NSNanoCat/Util](https://github.com/NSNanoCat/util) - 跨平台脚本工具框架
 
 ### 贡献者
 
-- [@YmlyZA](https://github.com/YmlyZA) - 百度地图支持、港澳台边界处理、GCJ 换算优化、回归测试覆盖
-- [@YeTianXingShi](https://github.com/YeTianXingShi) - randomRadius 随机坐标扰动功能原始实现
-- [@SajoLuo](https://github.com/SajoLuo) - Stash 响应格式修复
+- [@YmlyZA](https://github.com/YmlyZA) - 百度地图支持、港澳台边界处理、GCJ 换算优化、回归测试覆盖 ([#83](https://github.com/Yu9191/wloc/pull/83))
+- [@YeTianXingShi](https://github.com/YeTianXingShi) - randomRadius 随机坐标扰动功能原始实现 ([#70](https://github.com/Yu9191/wloc/pull/70))
+- [@SajoLuo](https://github.com/SajoLuo) - Stash 响应格式修复 ([#66](https://github.com/Yu9191/wloc/pull/66))
+- [@SkywardLab](https://github.com/SkywardLab) - 扩展 WLOC 备用域名拦截 ([#90](https://github.com/Yu9191/wloc/pull/90))
+- [@beiming0000](https://github.com/beiming0000) - 逗号小数格式坐标丢失问题报告 ([#96](https://github.com/Yu9191/wloc/issues/96))
 
 ---
 
