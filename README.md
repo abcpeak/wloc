@@ -4,7 +4,7 @@
 
 # WLOC-LM
 
-> WLOC Location Modification (WLOC-LM) 本项目根据Yu9191/wolc修改
+> WLOC Location Modification (WLOC-LM)， 本项目根据Yu9191/wolc修改
 
 Modify the coordinates returned by Apple's network‑location services (Wi‑Fi, cellular base stations) to achieve network‑level virtual location on iOS. A visual point‑selection page is supported; simply select a target location to take effect without manually entering latitude and longitude.
 
