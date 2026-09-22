@@ -10,51 +10,49 @@ WLOC Location Modification (WLOC-LM): Modify the coordinates returned by Apple's
 
 ---
 
----
+## 流程
 
-## 安装与操作流程
+### 安装流程
 
-安装流程：
+1. 复制 WLOC 模块链接，打开VPN软件导入模块
+2. 开启 MITM / HTTPS 解密，需要 MITM 证书信任 `gs-loc.apple.com` 和 `gs-loc-cn.apple.com`，Hostname加入这2个域名
+3. 生成CA证书，安装CA，在“设置 → 通用 → VPN与设备管理”安装
+4. 在“设置 → 通用 → 关于本机 → 证书信任设置”中开启完全信任，
+5. 确认VPN正常连接 → 打开选点页面 → 选好位置→ 储存到设备
+6. 关闭定位 → 开飞行模式 → 确认 Wi-Fi / 蓝牙关闭 → 等 10 秒 → 关飞行模式 → 等网络和 VPN 恢复 → 重新开启定位
+7. 打开地图验证
 
-1. 订阅模块并启用 MITM
-2. 打开选点页面（公共 Worker）
-3. 地图选位置 / 搜索地名 / 粘贴地图链接
-4. 点击「储存到设备」
-5. 下次 Apple 定位触发时自动生效
+### 注意事项
 
-> **iOS 26/27 及更高版本注意：** Apple 从 iOS 26 开始大幅强化了 `locationd` 的定位缓存机制，系统会将之前获取的真实定位结果缓存在内存中并长时间复用。这意味着安装模块或切换目标坐标后，即使脚本已成功修改了 WLOC 响应（日志显示"已修改"），系统仍可能继续使用缓存中的旧坐标，导致定位看起来没有变化。
->
-> **解决方法：重启设备。** 重启会清空 `locationd` 的内存缓存，系统重新发起 WLOC 请求时会拿到修改后的坐标。飞行模式开关、关闭定位服务等方式在 iOS 26+ 上**无法**清除此缓存，必须重启。iOS 15~18 通常不需要重启即可生效。
-
-### 操作流程
-
-1. 关闭定位服务
-2. 选好位置(在选点页面) → 储存到设备
-3. 打开定位服务 → 弹出「允许访问位置信息」时选择「下次询问或在我共享时」
-4. 打开地图验证
-
-其他方法(需要重启设备)：打开飞行模式 → 关闭定位服务 → 重启设备 → 关闭飞行模式（WiFi 也要关）→ 连接代理工具→ 打开定位服务
-
-支持 Apple Maps / Google Maps / 高德 / 百度 / 坐标文本 链接解析。
+- **支持iOS版本：** iOS 26.7和iOS27.0 beta5以下版本，从 iOS 27 beta 6 起已出现与 WLOC 相关的 TLS / MITM 限制，当前传统 WLOC 依赖代理客户端对 Apple 网络定位请求进行 HTTPS 解密
+- **iOS 26/27 缓存机制：** Apple 从 iOS 26 开始大幅强化了 `locationd` 的定位缓存机制，系统会将之前获取的真实定位结果缓存在内存中并长时间复用。这意味着安装模块或切换目标坐标后，即使脚本已成功修改了 WLOC 响应（日志显示"已修改"），系统仍可能继续使用缓存中的旧坐标，导致定位看起来没有变化。**重启设备**会清空 `locationd` 的内存缓存，系统重新发起 WLOC 请求时会拿到修改后的坐标。飞行模式开关、关闭定位服务等方式在 iOS 26+ 上**无法**清除此缓存，必须重启。iOS 15~18 通常不需要重启即可生效。
+- 仅修改网络定位(WiFi/基站)，不影响 GPS 硬件定位
+- iOS 在 GPS 信号强时可能忽略网络定位结果
+- 适用于 WiFi 定位为主的室内场景效果最佳
+- 需要代理已开 + 模块已启用，选点页面需在代理模式下使用（Safari 走代理才能拦截储存请求）
 
 ### 订阅地址
 
 - **Surge:** <https://raw.githubusercontent.com/abcpeak/wloc/refs/heads/main/modules/wloc.sgmodule>
+  - 模块 → 安装新模块 → 从 URL 安装 → 粘贴 wloc.sgmodule 地址 → 启用
 
-- **Quantumult X:** <https://raw.githubusercontent.com/abcpeak/wloc/refs/heads/main/modules/wloc.conf>
+- **Quantumult X（圈X 或 QX）:** <https://raw.githubusercontent.com/abcpeak/wloc/refs/heads/main/modules/wloc.conf>
 
 - **Loon:**<https://raw.githubusercontent.com/abcpeak/wloc/refs/heads/main/modules/wloc.lpx>
 
 - **Stash:**<https://raw.githubusercontent.com/abcpeak/wloc/refs/heads/main/modules/wloc.stoverride>
 
-- 🚀**Shadowrocket(小火箭):** <https://raw.githubusercontent.com/abcpeak/wloc/refs/heads/main/modules/wloc.module>
+- 🚀**Shadowrocket（小火箭）:** <https://raw.githubusercontent.com/abcpeak/wloc/refs/heads/main/modules/wloc.module>
+  - 配置 → 模块 → 右上角“＋” → 来自URL
 
 > Egern 可直接使用 Surge 模块
 > Stash 请直接订阅上面的 `.stoverride`，无需用 Script Hub 转换
+> 在模块 / 重写 / Override 等页面导入对应 URL
 
 ### 选点页面
 
 > 公共页面有请求上限，建议部署自己的实例：
+> 支持 Apple Maps / Google Maps / 高德 / 百度 / 坐标文本 链接解析。
 
 - **Workers**: `https://wloc-spoofer.wloc.workers.dev/`
 - **Pages**: `https://wloc-pages.pages.dev/`
@@ -64,15 +62,6 @@ WLOC Location Modification (WLOC-LM): Modify the coordinates returned by Apple's
 - WLOC 设置地理位置：<https://www.icloud.com/shortcuts/a82717d8fdad4e6280866fcf911173f7>
   - 用法：在苹果或高德地图 App 选好位置 → 共享 → 选「WLOC 设置地理位置」快捷指令即可切换。
 - WLOC 清除位置数据：<https://www.icloud.com/shortcuts/99077600826c49899965cc6c8cebb7a4>
-
-### 注意事项
-
-- 需要代理已开 + 模块已启用
-- 需要 MITM 证书信任 `gs-loc.apple.com` 和 `gs-loc-cn.apple.com`
-- 仅修改网络定位(WiFi/基站)，不影响 GPS 硬件定位
-- iOS 在 GPS 信号强时可能忽略网络定位结果
-- 适用于 WiFi 定位为主的室内场景效果最佳
-- 选点页面需在代理模式下使用（Safari 走代理才能拦截储存请求）
 
 ### 默认扩展域名支持
 
