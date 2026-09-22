@@ -4,7 +4,7 @@
 
 # WLOC-LM
 
-> WLOC Location Modification (WLOC-LM)， 本项目根据Yu9191/wolc修改
+> WLOC Location Modification (WLOC-LM)
 
 Modify the coordinates returned by Apple's network‑location services (Wi‑Fi, cellular base stations) to achieve network‑level virtual location on iOS. A visual point‑selection page is supported; simply select a target location to take effect without manually entering latitude and longitude.
 
@@ -72,7 +72,7 @@ Modify the coordinates returned by Apple's network‑location services (Wi‑Fi,
 快捷指令：
 
 - WLOC 设置地理位置：https://www.icloud.com/shortcuts/a82717d8fdad4e6280866fcf911173f7
-- WLOC 清除位置数据：https://www.icloud.com/shortcuts/f42632d406504f24a2cd163af4fe012f
+- WLOC 清除位置数据：https://www.icloud.com/shortcuts/99077600826c49899965cc6c8cebb7a4
 
 设置位置快捷指令用法：在地图 App 选好位置 → 共享 → 选「wloc 设置地理位置」即可切换。
 
@@ -265,8 +265,9 @@ Pages 和 Workers 功能完全一致，按需选择即可。
 
 ---
 
-## 感谢
+## 致谢
 
+- 原Yu9191/wolc
 - [proxypin-wloc-spoofer](https://github.com/FFF686868/proxypin-wloc-spoofer) - 原始 WLOC 定位修改思路 by FFF686868
 - [NSNanoCat/Util](https://github.com/NSNanoCat/util) - 跨平台脚本工具
 - [@YmlyZA](https://github.com/YmlyZA) - 百度地图支持、港澳台边界处理、GCJ 换算优化、回归测试覆盖
